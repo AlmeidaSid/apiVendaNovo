@@ -19,27 +19,25 @@ public class ProdutoServiceImpl implements ProdutoServiceInterface {
 
     @Override
     public ProdutoResponseDto save(ProdutoRequestDto produtoRequestDto) {
-        // Cria uma nova instância de User.
+        // Cria uma nova instância de Produto.
         Produto produto = new Produto();
 
-        // Define o nome do usuário a partir do DTO.
+        // Define o nome do produto a partir do DTO.
         produto.setName(produtoRequestDto.getName());
         produto.setQuantidade(produtoRequestDto.getQuantidade());
         produto.setPreco(produtoRequestDto.getPreco());
 
-
-        // Salva o usuário no banco de dados e obtém a entidade persistida com o ID gerado.
+        // Salva o produto no banco de dados e obtém a entidade persistida com o ID gerado.
         Produto savedProduto = produtoRepository.save(produto);
 
-        // Cria um DTO de resposta com as informações do usuário salvo.
+        // Cria um DTO de resposta com as informações do produto salvo.
         ProdutoResponseDto produtoResponseDto = new ProdutoResponseDto();
-        ProdutoResponseDto.setId(savedProduto.getId());
-        ProdutoResponseDto.setName(savedProduto.getName());
-        ProdutoResponseDto.setQuantidade(savedProduto.setQuantidade());
-        ProdutoResponseDto.setPreco(savedProduto.setPreco());
+        produtoResponseDto.setId(savedProduto.getId());
+        produtoResponseDto.setName(savedProduto.getName());
+        produtoResponseDto.setQuantidade(savedProduto.getQuantidade());
+        produtoResponseDto.setPreco(savedProduto.getPreco());
 
-
-        // Retorna o DTO com as informações do usuário salvo.
+        // Retorna o DTO com as informações do produto salvo.
         return produtoResponseDto;
     }
 
@@ -48,24 +46,22 @@ public class ProdutoServiceImpl implements ProdutoServiceInterface {
         Produto existingProduto = produtoRepository.findById(id).orElseThrow();
 
         ProdutoResponseDto produtoResponseDto = new ProdutoResponseDto();
-        ProdutoResponseDto.setId(existingProduto.getId());
-        ProdutoResponseDto.setName(existingProduto.getName());
-        ProdutoResponseDto.setQuantidade(existingProduto.getQuantidade());
-        ProdutoResponseDto.setPreco(existingProduto.getPreco());
-
+        produtoResponseDto.setId(existingProduto.getId());
+        produtoResponseDto.setName(existingProduto.getName());
+        produtoResponseDto.setQuantidade(existingProduto.getQuantidade());
+        produtoResponseDto.setPreco(existingProduto.getPreco());
 
         return produtoResponseDto;
     }
 
     @Override
     public ProdutoResponseDto update(Long id, ProdutoRequestDto produtoRequestDto) {
-        // Get the previously created User
+        // Obtém o produto previamente criado
         Produto existingProduto = produtoRepository.findById(id).orElseThrow();
 
         existingProduto.setName(produtoRequestDto.getName());
         existingProduto.setQuantidade(produtoRequestDto.getQuantidade());
         existingProduto.setPreco(produtoRequestDto.getPreco());
-
 
         produtoRepository.save(existingProduto);
 
