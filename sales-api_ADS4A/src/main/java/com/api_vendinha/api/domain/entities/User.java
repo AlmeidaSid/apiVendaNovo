@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 /**
  * Entidade representando um usuário no sistema.
  *
@@ -46,6 +48,11 @@ public class User {
 
     @Column(name = "document")
     private String document;
+
+    @OneToMany(mappedBy = "user")
+    private List<Produto> produtos;
+
+
 
     public Long getId() {
         return id;

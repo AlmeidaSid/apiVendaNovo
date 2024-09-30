@@ -27,6 +27,22 @@ public class Produto {
     @Column(name = "preco", nullable = false)
     private String preco;
 
+    @Column
+    private Boolean isActive;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+
+    public Boolean getActive() {
+        return isActive;
+    }
+
+    public void setActive(Boolean active) {
+        isActive = active;
+    }
+
     public Long getId() {
         return id;
     }

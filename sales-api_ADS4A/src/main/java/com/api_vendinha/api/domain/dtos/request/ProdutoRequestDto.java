@@ -11,6 +11,15 @@ public class ProdutoRequestDto {
     private String name;
     private String quantidade;
     private String preco;
+    private Boolean isActive;
+
+    public Boolean getActive() {
+        return isActive;
+    }
+
+    public void setActive(Boolean active) {
+        isActive = active;
+    }
 
     public String getName() {
         return name;

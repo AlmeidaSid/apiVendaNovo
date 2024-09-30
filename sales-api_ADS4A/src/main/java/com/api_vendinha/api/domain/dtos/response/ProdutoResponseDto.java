@@ -10,6 +10,15 @@ import lombok.NoArgsConstructor;
         private String name;
         private String quantidade;
         private String preco;
+        private Boolean isActive;
+
+        public Boolean getActive() {
+            return isActive;
+        }
+
+        public void setActive(Boolean active) {
+            isActive = active;
+        }
 
         public Long getId() {
             return id;

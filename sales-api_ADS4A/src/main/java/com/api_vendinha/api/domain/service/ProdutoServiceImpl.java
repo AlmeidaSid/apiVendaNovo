@@ -26,6 +26,7 @@ public class ProdutoServiceImpl implements ProdutoServiceInterface {
         produto.setName(produtoRequestDto.getName());
         produto.setQuantidade(produtoRequestDto.getQuantidade());
         produto.setPreco(produtoRequestDto.getPreco());
+        produto.setIsActive(produtoRequestDto.getIsActive());
 
         // Salva o produto no banco de dados e obtém a entidade persistida com o ID gerado.
         Produto savedProduto = produtoRepository.save(produto);
@@ -36,6 +37,7 @@ public class ProdutoServiceImpl implements ProdutoServiceInterface {
         produtoResponseDto.setName(savedProduto.getName());
         produtoResponseDto.setQuantidade(savedProduto.getQuantidade());
         produtoResponseDto.setPreco(savedProduto.getPreco());
+        produtoResponseDto.setIsActive(savedProduto.getIsActive());
 
         // Retorna o DTO com as informações do produto salvo.
         return produtoResponseDto;
@@ -50,6 +52,8 @@ public class ProdutoServiceImpl implements ProdutoServiceInterface {
         produtoResponseDto.setName(existingProduto.getName());
         produtoResponseDto.setQuantidade(existingProduto.getQuantidade());
         produtoResponseDto.setPreco(existingProduto.getPreco());
+        produtoResponseDto.setActive(produtoResponseDto.getIsActive());
+
 
         return produtoResponseDto;
     }
@@ -62,6 +66,7 @@ public class ProdutoServiceImpl implements ProdutoServiceInterface {
         existingProduto.setName(produtoRequestDto.getName());
         existingProduto.setQuantidade(produtoRequestDto.getQuantidade());
         existingProduto.setPreco(produtoRequestDto.getPreco());
+        existingProduto.setIsActive(produtoRequestDto.getIsActive());
 
         produtoRepository.save(existingProduto);
 
@@ -69,6 +74,7 @@ public class ProdutoServiceImpl implements ProdutoServiceInterface {
         produtoResponseDto.setName(existingProduto.getName());
         produtoResponseDto.setQuantidade(existingProduto.getQuantidade());
         produtoResponseDto.setPreco(existingProduto.getPreco());
+        produtoResponseDto.setIsActive(existingProduto.getIsActive());
 
         return produtoResponseDto;
     }

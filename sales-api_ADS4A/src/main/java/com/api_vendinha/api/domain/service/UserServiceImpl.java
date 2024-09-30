@@ -1,12 +1,18 @@
 package com.api_vendinha.api.domain.service;
 
+import com.api_vendinha.api.Infrastructure.repository.ProdutoRepository;
 import com.api_vendinha.api.Infrastructure.repository.UserRepository;
 import com.api_vendinha.api.domain.dtos.request.UserRequestActiveDto;
 import com.api_vendinha.api.domain.dtos.request.UserRequestDto;
 import com.api_vendinha.api.domain.dtos.response.UserResponseDto;
+import com.api_vendinha.api.domain.entities.Produto;
 import com.api_vendinha.api.domain.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 /**
  * Implementação do serviço de usuários.
@@ -19,6 +25,7 @@ public class UserServiceImpl implements UserServiceInterface {
 
     // Repositório para a persistência de dados de usuários.
     private final UserRepository userRepository;
+    private final ProdutoRepository produtoRepository;
 
     /**
      * Construtor para injeção de dependência do UserRepository.
@@ -26,8 +33,9 @@ public class UserServiceImpl implements UserServiceInterface {
      * @param userRepository O repositório de usuários a ser injetado.
      */
     @Autowired
-    public UserServiceImpl(UserRepository userRepository) {
+    public UserServiceImpl(UserRepository userRepository, ProdutoRepository produtoRepository) {
         this.userRepository = userRepository;
+        this.produtoRepository = produtoRepository;
     }
 
     /**
@@ -51,10 +59,24 @@ public class UserServiceImpl implements UserServiceInterface {
         user.setActive(userRequestDto.getActive());
         user.setDocument(userRequestDto.getDocument());
 
-        // Salva o usuário no banco de dados e obtém a entidade persistida com o ID gerado.
+
         User savedUser = userRepository.save(user);
 
-        // Cria um DTO de resposta com as informações do usuário salvo.
+        List<Produto> produtos = userRequestDto.getProdutoRequestDtos().stream().map(dto ->{
+            Produto produto = new Produto();
+            produto.setUser(savedUser);
+            produto.setName(dto.getName());
+            produto.setQuantidade(dto.getQuantidade());
+            produto.setPreco(dto.getPreco());
+            produto.setIsActive(dto.getIsActive());
+            return produto;
+
+
+
+        }).collect(Collectors.toList());
+
+        produtoRepository.saveAll(produtos);
+
         UserResponseDto userResponseDto = new UserResponseDto();
         userResponseDto.setId(savedUser.getId());
         userResponseDto.setName(savedUser.getName());
@@ -63,7 +85,7 @@ public class UserServiceImpl implements UserServiceInterface {
         userResponseDto.setActive(savedUser.getActive());
         userResponseDto.setDocument(savedUser.getDocument());
 
-        // Retorna o DTO com as informações do usuário salvo.
+
         return userResponseDto;
     }
 
